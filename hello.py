@@ -1,9 +1,8 @@
 # import os.path
 # from wsgiref import headers
 # from favicon import Icon
-import requests
 # # import favicon
-from flask import Flask, render_template, send_from_directory, request, redirect
+from flask import Flask, render_template, request
 import csv
 
 app = Flask(__name__)
@@ -19,7 +18,7 @@ def home():
     return render_template('index.html')
 
 def write_to(data):
-    with open('data.csv', mode='a',newline='') as database2:
+    with open('data.csv', encoding ='utf-8', mode ='a' ,newline='') as database2:
         email = data['email']
         subject = data['text']
         text = data["massage"]
@@ -34,8 +33,8 @@ def login():
             data = request.form.to_dict()
             write_to(data)
             return render_template('thank_u.html')
-        except:
-            return "server did not save your file"
+        except ValueError() :
+            return "server did not save your file" 
     else:
         return 'try something else'
 
@@ -48,7 +47,3 @@ if '__main__' != __name__:
 else:
     app.run(debug=True)
 
-# def write_to(data):
-#     with open('database.txt', mode = 'a') as database:
-#         
-#         file = database.write(f'{email},{subject},{text}')
